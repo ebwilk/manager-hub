@@ -35,126 +35,183 @@
         .custom-scroll::-webkit-scrollbar { width: 3px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+
+        /* --- LIQUID GLASS STYLES --- */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(0, 52, 120, 0.1);
+        }
+
+        .liquid-header {
+            background: linear-gradient(135deg, #003478 0%, #0055a6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .liquid-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        .glass-card {
+            background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(248,250,252,1) 100%);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 52, 120, 0.08), inset 0 1px 0 rgba(255,255,255,1);
+            border-color: rgba(0, 85, 166, 0.3);
+        }
+
+        .glossy-btn-primary {
+            background: linear-gradient(to bottom, #003478, #002a60);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .glossy-btn-primary:hover {
+            background: linear-gradient(to bottom, #004096, #003478);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .glossy-icon-bg {
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .tab-glass-active {
+            background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
     </style>
 </head>
 <body class="font-sans text-slate-800 p-0">
 
-    <!-- WIDGET CONTAINER 
-         - w-full: Adapts to parent container width
-         - h-[400px]: Increased height for better visibility
-    -->
-    <div class="w-full bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col overflow-hidden relative h-[400px]">
+    <!-- WIDGET CONTAINER -->
+    <div class="w-full glass-container rounded-xl flex flex-col overflow-hidden relative h-[400px]">
         
-        <!-- HEADER -->
-        <div class="bg-[#003478] px-4 py-3 flex items-center justify-between shrink-0 z-20 gap-2">
-            <div class="flex items-center gap-2.5 min-w-0">
-                <div class="bg-white/10 p-1.5 rounded-full shrink-0">
-                    <i data-lucide="briefcase" class="w-4 h-4 text-white"></i>
+        <!-- HEADER (Liquid Style) -->
+        <div class="liquid-header px-4 py-3 flex items-center justify-between shrink-0 z-20 gap-2 shadow-md">
+            <div class="flex items-center gap-2.5 min-w-0 relative z-10">
+                <div class="bg-white/20 p-1.5 rounded-full shrink-0 backdrop-blur-sm shadow-inner border border-white/10">
+                    <i data-lucide="briefcase" class="w-4 h-4 text-white drop-shadow-sm"></i>
                 </div>
                 <div class="min-w-0">
-                    <h2 class="text-xs font-bold text-white uppercase tracking-wide leading-none truncate">Manager Hub</h2>
-                    <p class="text-[10px] text-blue-200 font-medium leading-none mt-0.5 truncate">5 Items Pending</p>
+                    <h2 class="text-xs font-bold text-white uppercase tracking-wide leading-none truncate drop-shadow-sm">Manager Hub</h2>
+                    <p class="text-[10px] text-blue-100 font-medium leading-none mt-0.5 truncate opacity-90">5 Items Pending</p>
                 </div>
             </div>
             
             <!-- Filter Tabs -->
-            <div class="flex bg-[#002a60] rounded p-0.5 shrink-0">
-                <button onclick="switchTab('inbox')" id="tab-inbox" class="px-3 py-1 rounded text-[10px] font-bold text-[#003478] bg-white shadow-sm transition-all">Approvals</button>
-                <button onclick="switchTab('team')" id="tab-team" class="px-3 py-1 rounded text-[10px] font-bold text-white/70 hover:text-white transition-all">Team</button>
+            <div class="flex bg-black/20 rounded-lg p-1 shrink-0 relative z-10 backdrop-blur-sm border border-white/10">
+                <button onclick="switchTab('inbox')" id="tab-inbox" class="px-3 py-1 rounded-md text-[10px] font-bold text-[#003478] tab-glass-active transition-all">Approvals</button>
+                <button onclick="switchTab('team')" id="tab-team" class="px-3 py-1 rounded-md text-[10px] font-bold text-white/80 hover:text-white hover:bg-white/10 transition-all">Team</button>
             </div>
         </div>
 
         <!-- CONTENT AREA: INBOX (Approvals) -->
-        <div id="view-inbox" class="flex-1 overflow-y-auto custom-scroll bg-slate-50 p-2 space-y-2">
+        <div id="view-inbox" class="flex-1 overflow-y-auto custom-scroll bg-slate-50/50 p-2 space-y-2">
             
             <!-- Task 1: Time Off (Workday) -->
-            <div id="task-1" class="bg-white border border-slate-200 rounded-md p-3 flex items-center justify-between shadow-sm group hover:border-orange-300 transition-colors gap-2">
+            <div id="task-1" class="glass-card rounded-lg p-3 flex items-center justify-between group gap-2">
                 <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-8 h-8 rounded-full bg-[#fb5d01] text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <div class="w-9 h-9 rounded-full bg-[#fb5d01] text-white flex items-center justify-center shrink-0 glossy-icon-bg">
                         <i data-lucide="calendar-clock" class="w-4 h-4"></i>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-bold text-slate-800 truncate">Sarah Jenkins</span>
-                            <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 rounded border border-slate-200 shrink-0">PTO</span>
+                            <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 rounded border border-slate-200 shrink-0 shadow-sm">PTO</span>
                         </div>
                         <p class="text-[10px] text-slate-500 truncate">Requesting <span class="font-medium text-slate-700">Fri, Oct 24</span></p>
                     </div>
                 </div>
-                <div class="flex items-center gap-1 opacity-90 transition-opacity shrink-0">
-                    <button onclick="dismissTask('task-1')" class="p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600" title="Deny"><i data-lucide="x" class="w-4 h-4"></i></button>
-                    <!-- Fixed Button Layout: Always visible text -->
-                    <button onclick="completeTask('task-1')" class="h-7 px-3 bg-[#003478] text-white rounded hover:bg-blue-900 shadow-sm flex items-center gap-2 transition-colors">
-                        <span class="text-[10px] font-bold opacity-70 border-r border-white/20 pr-2 leading-none">Workday</span>
+                <div class="flex items-center gap-2 opacity-90 transition-opacity shrink-0">
+                    <button onclick="dismissTask('task-1')" class="w-7 h-7 flex items-center justify-center hover:bg-slate-100 rounded-full text-slate-400 hover:text-red-500 transition-colors" title="Deny"><i data-lucide="x" class="w-4 h-4"></i></button>
+                    <button onclick="completeTask('task-1')" class="h-7 px-3 glossy-btn-primary text-white rounded-md flex items-center gap-2 transition-transform active:scale-95">
+                        <span class="text-[10px] font-bold opacity-80 border-r border-white/30 pr-2 leading-none">Workday</span>
                         <span class="text-[10px] font-bold leading-none">Approve</span>
                     </button>
                 </div>
             </div>
 
             <!-- Task 2: Expense Report (Concur) -->
-            <div id="task-2" class="bg-white border border-slate-200 rounded-md p-3 flex items-center justify-between shadow-sm group hover:border-green-300 transition-colors gap-2">
+            <div id="task-2" class="glass-card rounded-lg p-3 flex items-center justify-between group gap-2">
                 <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-8 h-8 rounded-full bg-[#02b547] text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <div class="w-9 h-9 rounded-full bg-[#02b547] text-white flex items-center justify-center shrink-0 glossy-icon-bg">
                         <i data-lucide="receipt" class="w-4 h-4"></i>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-bold text-slate-800 truncate">Michael Ross</span>
-                            <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 rounded border border-slate-200 shrink-0">Expense</span>
+                            <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 rounded border border-slate-200 shrink-0 shadow-sm">Expense</span>
                         </div>
                         <p class="text-[10px] text-slate-500 truncate">Supplier Visit ($425.00)</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-1 opacity-90 transition-opacity shrink-0">
-                    <button onclick="dismissTask('task-2')" class="p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600"><i data-lucide="search" class="w-4 h-4"></i></button>
-                    <button onclick="completeTask('task-2')" class="h-7 px-3 bg-[#003478] text-white rounded hover:bg-blue-900 shadow-sm flex items-center gap-2 transition-colors">
-                        <span class="text-[10px] font-bold opacity-70 border-r border-white/20 pr-2 leading-none">Concur</span>
+                <div class="flex items-center gap-2 opacity-90 transition-opacity shrink-0">
+                    <!-- Changed from dismiss to open details -->
+                    <button onclick="openDetails('expense')" class="w-7 h-7 flex items-center justify-center hover:bg-slate-100 rounded-full text-slate-400 hover:text-[#003478] transition-colors" title="View Details"><i data-lucide="search" class="w-4 h-4"></i></button>
+                    <button onclick="completeTask('task-2')" class="h-7 px-3 glossy-btn-primary text-white rounded-md flex items-center gap-2 transition-transform active:scale-95">
+                        <span class="text-[10px] font-bold opacity-80 border-r border-white/30 pr-2 leading-none">Concur</span>
                         <span class="text-[10px] font-bold leading-none">Approve</span>
                     </button>
                 </div>
             </div>
 
             <!-- Task 3: Training Compliance (LMS) -->
-            <div id="task-3" class="bg-white border border-slate-200 rounded-md p-3 flex items-center justify-between shadow-sm group hover:border-blue-300 transition-colors gap-2">
+            <div id="task-3" class="glass-card rounded-lg p-3 flex items-center justify-between group gap-2">
                 <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-8 h-8 rounded-full bg-[#2576fe] text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <div class="w-9 h-9 rounded-full bg-[#2576fe] text-white flex items-center justify-center shrink-0 glossy-icon-bg">
                         <i data-lucide="graduation-cap" class="w-4 h-4"></i>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-bold text-slate-800 truncate">Data Privacy '26</span>
-                            <span class="text-[9px] bg-red-50 text-red-600 px-1.5 rounded border border-red-100 font-bold shrink-0">Required</span>
+                            <span class="text-[9px] bg-red-50 text-red-600 px-1.5 rounded border border-red-100 font-bold shrink-0 shadow-sm">Required</span>
                         </div>
                         <p class="text-[10px] text-slate-500 truncate">Assign to Team (12 Pending)</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-1 opacity-90 transition-opacity shrink-0">
-                    <button onclick="dismissTask('task-3')" class="p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600"><i data-lucide="info" class="w-4 h-4"></i></button>
-                    <button onclick="completeTask('task-3')" class="h-7 px-3 bg-[#003478] text-white rounded hover:bg-blue-900 shadow-sm flex items-center gap-2 transition-colors">
-                        <span class="text-[10px] font-bold opacity-70 border-r border-white/20 pr-2 leading-none">LMS</span>
+                <div class="flex items-center gap-2 opacity-90 transition-opacity shrink-0">
+                    <!-- Changed from dismiss to open details -->
+                    <button onclick="openDetails('training')" class="w-7 h-7 flex items-center justify-center hover:bg-slate-100 rounded-full text-slate-400 hover:text-[#003478] transition-colors" title="Course Info"><i data-lucide="info" class="w-4 h-4"></i></button>
+                    <button onclick="completeTask('task-3')" class="h-7 px-3 glossy-btn-primary text-white rounded-md flex items-center gap-2 transition-transform active:scale-95">
+                        <span class="text-[10px] font-bold opacity-80 border-r border-white/30 pr-2 leading-none">LMS</span>
                         <span class="text-[10px] font-bold leading-none">Assign</span>
                     </button>
                 </div>
             </div>
 
             <!-- Task 4: Candidate Feedback (Workday) -->
-            <div id="task-4" class="bg-white border border-slate-200 rounded-md p-3 flex items-center justify-between shadow-sm group hover:border-blue-300 transition-colors gap-2">
+            <div id="task-4" class="glass-card rounded-lg p-3 flex items-center justify-between group gap-2">
                 <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-8 h-8 rounded-full bg-[#2576fe] text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <div class="w-9 h-9 rounded-full bg-[#2576fe] text-white flex items-center justify-center shrink-0 glossy-icon-bg">
                         <i data-lucide="user-check" class="w-4 h-4"></i>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-bold text-slate-800 truncate">Sr. Analyst Role</span>
-                            <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 rounded border border-slate-200 shrink-0">Interview</span>
+                            <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 rounded border border-slate-200 shrink-0 shadow-sm">Interview</span>
                         </div>
                         <p class="text-[10px] text-slate-500 truncate">Feedback Pending: J. Doe</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-1 opacity-90 transition-opacity shrink-0">
-                    <button onclick="dismissTask('task-4')" class="p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600"><i data-lucide="search" class="w-4 h-4"></i></button>
-                    <button onclick="completeTask('task-4')" class="h-7 px-3 bg-[#003478] text-white rounded hover:bg-blue-900 shadow-sm flex items-center gap-2 transition-colors">
-                        <span class="text-[10px] font-bold opacity-70 border-r border-white/20 pr-2 leading-none">Workday</span>
+                <div class="flex items-center gap-2 opacity-90 transition-opacity shrink-0">
+                    <!-- Changed from dismiss to open details -->
+                    <button onclick="openDetails('candidate')" class="w-7 h-7 flex items-center justify-center hover:bg-slate-100 rounded-full text-slate-400 hover:text-[#003478] transition-colors" title="View Resume"><i data-lucide="search" class="w-4 h-4"></i></button>
+                    <button onclick="completeTask('task-4')" class="h-7 px-3 glossy-btn-primary text-white rounded-md flex items-center gap-2 transition-transform active:scale-95">
+                        <span class="text-[10px] font-bold opacity-80 border-r border-white/30 pr-2 leading-none">Workday</span>
                         <span class="text-[10px] font-bold leading-none">Review</span>
                     </button>
                 </div>
@@ -163,12 +220,12 @@
         </div>
 
         <!-- CONTENT AREA: TEAM PULSE (Hidden Initially) -->
-        <div id="view-team" class="hidden flex-1 overflow-y-auto custom-scroll bg-slate-50 p-2 space-y-2">
-            
-            <!-- Update to Share (Collapsible) -->
-            <div class="bg-gradient-to-r from-blue-50 to-white border border-blue-100 rounded-md p-3 shadow-sm transition-all duration-300" id="talking-points-card">
+        <div id="view-team" class="hidden flex-1 overflow-y-auto custom-scroll bg-slate-50/50 p-2 space-y-2">
+            <!-- Same as previous version ... -->
+            <!-- Update to Share -->
+            <div class="glass-card rounded-lg p-3 group" id="talking-points-card">
                 <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-full bg-[#2576fe] text-white flex items-center justify-center shrink-0">
+                    <div class="w-9 h-9 rounded-full bg-[#2576fe] text-white flex items-center justify-center shrink-0 glossy-icon-bg">
                         <i data-lucide="megaphone" class="w-4 h-4"></i>
                     </div>
                     <div class="flex-1 min-w-0">
@@ -176,14 +233,10 @@
                         <p class="text-[10px] text-slate-600 leading-relaxed mb-2 line-clamp-2">
                             The Q4 Policy on Hybrid Work has been updated. Please discuss with your direct reports by Friday.
                         </p>
-                        
-                        <!-- Toggle Button -->
-                        <button onclick="toggleTalkingPoints()" id="btn-talking-points" class="text-[9px] font-bold text-[#003478] border border-blue-200 bg-white px-2 py-1 rounded hover:bg-blue-50 flex items-center gap-1 w-fit transition-colors">
+                        <button onclick="toggleTalkingPoints()" id="btn-talking-points" class="text-[9px] font-bold text-[#003478] border border-blue-200 bg-white/80 backdrop-blur-sm px-2 py-1 rounded hover:bg-blue-50 flex items-center gap-1 w-fit transition-colors shadow-sm">
                             View Talking Points <i data-lucide="chevron-down" class="w-2.5 h-2.5"></i>
                         </button>
-
-                        <!-- Hidden Content -->
-                        <div id="talking-points-content" class="hidden mt-3 pt-2 border-t border-blue-100 text-[10px] text-slate-700 bg-white/50 rounded p-2">
+                        <div id="talking-points-content" class="hidden mt-3 pt-2 border-t border-blue-100 text-[10px] text-slate-700 bg-blue-50/50 rounded p-2">
                             <ul class="list-disc list-inside space-y-1">
                                 <li><strong>3 Days On-Site:</strong> Mandatory starting Nov 1st.</li>
                                 <li><strong>Core Hours:</strong> 10:00 AM - 3:00 PM for meetings.</li>
@@ -194,69 +247,76 @@
                 </div>
             </div>
 
-            <!-- Compliance Status (Collapsible) -->
-            <div class="bg-white border border-slate-200 rounded-md p-3 shadow-sm transition-all duration-300 pb-2">
-                <div onclick="toggleCompliance()" class="cursor-pointer group">
+            <!-- Compliance Status -->
+            <div class="glass-card rounded-lg p-3 pb-2 transition-all duration-300">
+                <div onclick="toggleCompliance()" class="cursor-pointer group/compliance">
                     <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-xs font-bold text-slate-700 truncate group-hover:text-[#003478]">Cybersecurity Training</h3>
-                        <span class="text-[9px] text-red-500 font-bold shrink-0">Due in 3 Days</span>
+                        <h3 class="text-xs font-bold text-slate-700 truncate group-hover/compliance:text-[#003478] transition-colors">Cybersecurity Training</h3>
+                        <span class="text-[9px] text-red-500 font-bold shrink-0 bg-red-50 px-1.5 py-0.5 rounded border border-red-100">Due in 3 Days</span>
                     </div>
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-1">
-                        <div class="bg-[#02b547] h-full rounded-full" style="width: 85%"></div>
+                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-1 shadow-inner">
+                        <div class="bg-[#02b547] h-full rounded-full shadow-sm" style="width: 85%"></div>
                     </div>
                     <div class="flex justify-between text-[9px] text-slate-400">
                         <span>12/14 Completed</span>
-                        <span class="text-[#003478] font-bold group-hover:underline flex items-center gap-1">
+                        <span class="text-[#003478] font-bold group-hover/compliance:underline flex items-center gap-1">
                             2 Pending (View) <i data-lucide="chevron-down" class="w-2.5 h-2.5"></i>
                         </span>
                     </div>
                 </div>
-
-                <!-- Hidden Employee List -->
                 <div id="compliance-list" class="hidden mt-3 pt-2 border-t border-slate-100 space-y-2">
-                    
-                    <!-- Employee 1: Patrick Anderson -->
-                    <div class="flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-100">
+                    <div class="flex items-center justify-between bg-slate-50/80 p-2 rounded border border-slate-100 shadow-sm">
                         <div class="flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[9px] font-bold">PA</div>
+                            <div class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[9px] font-bold shadow-inner">PA</div>
                             <div>
                                 <p class="text-[10px] font-bold text-slate-700">Patrick Anderson</p>
                                 <p class="text-[8px] text-slate-400 font-mono">ID: 6912...fbb7</p>
                             </div>
                         </div>
-                        <button onclick="sendReminder(this, 'Patrick')" class="text-[9px] font-bold text-white bg-[#003478] px-2 py-1 rounded hover:bg-blue-900 transition-colors flex items-center gap-1">
+                        <button onclick="sendReminder(this, 'Patrick')" class="text-[9px] font-bold text-white bg-[#003478] px-2 py-1 rounded hover:bg-blue-900 transition-colors flex items-center gap-1 shadow-sm">
                             Notify <i data-lucide="bell" class="w-2.5 h-2.5"></i>
                         </button>
                     </div>
-
-                    <!-- Employee 2: Maria A -->
-                    <div class="flex items-center justify-between bg-slate-50 p-2 rounded border border-slate-100">
+                    <div class="flex items-center justify-between bg-slate-50/80 p-2 rounded border border-slate-100 shadow-sm">
                         <div class="flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[9px] font-bold">MA</div>
+                            <div class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[9px] font-bold shadow-inner">MA</div>
                             <div>
                                 <p class="text-[10px] font-bold text-slate-700">Maria A</p>
                                 <p class="text-[8px] text-slate-400 font-mono">ID: 6912...2893</p>
                             </div>
                         </div>
-                        <button onclick="sendReminder(this, 'Maria')" class="text-[9px] font-bold text-white bg-[#003478] px-2 py-1 rounded hover:bg-blue-900 transition-colors flex items-center gap-1">
+                        <button onclick="sendReminder(this, 'Maria')" class="text-[9px] font-bold text-white bg-[#003478] px-2 py-1 rounded hover:bg-blue-900 transition-colors flex items-center gap-1 shadow-sm">
                             Notify <i data-lucide="bell" class="w-2.5 h-2.5"></i>
                         </button>
                     </div>
-
                 </div>
             </div>
-
         </div>
 
         <!-- FOOTER: System Status -->
-        <div class="bg-white border-t border-slate-200 px-3 py-2 flex justify-between items-center shrink-0 z-20">
+        <div class="bg-white/80 backdrop-blur-sm border-t border-slate-200 px-3 py-2 flex justify-between items-center shrink-0 z-20">
             <div class="flex items-center gap-2 min-w-0">
-                <div class="w-1.5 h-1.5 rounded-full bg-[#02b547] shrink-0"></div>
-                <span class="text-[9px] font-medium text-slate-500 truncate">Workday & Concur: <span class="text-green-600">Online</span></span>
+                <div class="w-1.5 h-1.5 rounded-full bg-[#02b547] shrink-0 shadow-[0_0_5px_#02b547]"></div>
+                <span class="text-[9px] font-medium text-slate-500 truncate">Workday & Concur: <span class="text-green-600 font-bold">Online</span></span>
             </div>
             <button class="text-[9px] font-bold text-[#003478] hover:underline flex items-center gap-1 shrink-0">
                 All Systems <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
             </button>
+        </div>
+
+        <!-- DETAILS OVERLAY -->
+        <div id="details-overlay" class="absolute inset-0 bg-white z-30 transform translate-x-full transition-transform duration-300 flex flex-col">
+            <!-- Header -->
+            <div class="liquid-header px-4 py-3 flex items-center gap-2 shrink-0 shadow-md">
+                <button onclick="closeDetails()" class="text-white/80 hover:text-white transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </button>
+                <h3 class="text-xs font-bold text-white uppercase tracking-wide leading-none" id="overlay-title">Details</h3>
+            </div>
+            <!-- Content -->
+            <div id="overlay-content" class="flex-1 overflow-y-auto custom-scroll p-4 bg-slate-50">
+                <!-- Injected via JS -->
+            </div>
         </div>
 
     </div>
@@ -268,28 +328,21 @@
         function switchTab(tabId) {
             document.getElementById('view-inbox').classList.add('hidden');
             document.getElementById('view-team').classList.add('hidden');
-            
-            document.getElementById('tab-inbox').className = "px-3 py-1 rounded text-[10px] font-bold text-white/70 hover:text-white transition-all";
-            document.getElementById('tab-team').className = "px-3 py-1 rounded text-[10px] font-bold text-white/70 hover:text-white transition-all";
-
+            document.getElementById('tab-inbox').className = "px-3 py-1 rounded-md text-[10px] font-bold text-white/80 hover:text-white hover:bg-white/10 transition-all";
+            document.getElementById('tab-team').className = "px-3 py-1 rounded-md text-[10px] font-bold text-white/80 hover:text-white hover:bg-white/10 transition-all";
             document.getElementById('view-' + tabId).classList.remove('hidden');
-            document.getElementById('tab-' + tabId).className = "px-3 py-1 rounded text-[10px] font-bold text-[#003478] bg-white shadow-sm transition-all";
+            document.getElementById('tab-' + tabId).className = "px-3 py-1 rounded-md text-[10px] font-bold text-[#003478] tab-glass-active transition-all";
         }
 
         function completeTask(id) {
             const el = document.getElementById(id);
-            const btn = el.querySelector('button.bg-\\[\\#003478\\]');
+            const btn = el.querySelector('.glossy-btn-primary');
             if(btn) {
-                // Simulate loading/success state
-                btn.className = "h-7 px-3 bg-[#02b547] text-white rounded shadow-sm flex items-center gap-1 cursor-default";
+                btn.className = "h-7 px-3 bg-[#02b547] text-white rounded shadow-sm flex items-center gap-1 cursor-default border border-[#02b547]";
                 btn.innerHTML = '<span class="text-[10px] font-bold">Processed</span><i data-lucide="check" class="w-3 h-3"></i>';
                 lucide.createIcons();
             }
-            
-            // Delay then slide out
-            setTimeout(() => {
-                el.classList.add('slide-out-right');
-            }, 800);
+            setTimeout(() => { el.classList.add('slide-out-right'); }, 800);
         }
 
         function dismissTask(id) {
@@ -298,10 +351,114 @@
             setTimeout(() => el.classList.add('slide-out-right'), 200);
         }
 
+        // --- Details Logic ---
+        function openDetails(type) {
+            const overlay = document.getElementById('details-overlay');
+            const title = document.getElementById('overlay-title');
+            const content = document.getElementById('overlay-content');
+            
+            overlay.classList.remove('translate-x-full');
+            
+            if (type === 'expense') {
+                title.innerText = "Expense Details";
+                content.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-4 mb-4">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h2 class="text-sm font-bold text-slate-800">Michael Ross</h2>
+                                <p class="text-[10px] text-slate-500">Supplier Visit - Detroit</p>
+                            </div>
+                            <span class="text-lg font-bold text-[#003478]">$425.00</span>
+                        </div>
+                        <div class="space-y-2 text-[10px] text-slate-600">
+                            <div class="flex justify-between border-b border-slate-100 pb-1">
+                                <span>Delta Air Lines (Round Trip)</span>
+                                <span>$280.00</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-100 pb-1">
+                                <span>Uber (Airport Transfer)</span>
+                                <span>$45.00</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-100 pb-1">
+                                <span>Team Dinner (3 ppl)</span>
+                                <span>$100.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-slate-400 uppercase font-bold mb-2">Attachments</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="h-20 bg-slate-100 rounded border border-slate-200 flex items-center justify-center text-slate-400">
+                            <i data-lucide="receipt" class="w-6 h-6"></i>
+                        </div>
+                        <div class="h-20 bg-slate-100 rounded border border-slate-200 flex items-center justify-center text-slate-400">
+                            <i data-lucide="file-text" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'training') {
+                title.innerText = "Course Info";
+                content.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-4 mb-4">
+                        <h2 class="text-sm font-bold text-slate-800 mb-1">Data Privacy & Security 2026</h2>
+                        <span class="inline-block bg-red-50 text-red-600 text-[9px] px-2 py-0.5 rounded border border-red-100 font-bold mb-3">Mandatory Compliance</span>
+                        <p class="text-[10px] text-slate-600 leading-relaxed">
+                            This course covers the latest updates to global data protection regulations (GDPR, CCPA) and Ford's internal data handling policies. All employees with access to customer data must complete this annual certification.
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-[10px] text-slate-600 border-b border-slate-100 pb-2">
+                            <span>Duration</span>
+                            <span class="font-bold">45 Minutes</span>
+                        </div>
+                        <div class="flex justify-between items-center text-[10px] text-slate-600 border-b border-slate-100 pb-2">
+                            <span>Deadline</span>
+                            <span class="font-bold text-red-600">Oct 30, 2026</span>
+                        </div>
+                        <div class="flex justify-between items-center text-[10px] text-slate-600 border-b border-slate-100 pb-2">
+                            <span>Target Audience</span>
+                            <span class="font-bold">All Salaried Staff</span>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'candidate') {
+                title.innerText = "Candidate Profile";
+                content.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-4 mb-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500">JD</div>
+                            <div>
+                                <h2 class="text-sm font-bold text-slate-800">Jane Doe</h2>
+                                <p class="text-[10px] text-slate-500">Senior Analyst Applicant</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex gap-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[9px] font-bold">SQL</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[9px] font-bold">Tableau</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[9px] font-bold">Supply Chain</span>
+                            </div>
+                            <p class="text-[10px] text-slate-600 mt-2">
+                                <strong>Summary:</strong> 8 years of experience in automotive logistics. Strong track record of cost reduction projects. Previously at Tier 1 supplier.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-slate-400 uppercase font-bold mb-2">Interview Notes</div>
+                    <div class="bg-slate-50 p-3 rounded border border-slate-100 text-[10px] text-slate-600 italic">
+                        "Strong cultural fit. Demonstrated good problem-solving skills during the case study. Recommended for hire." - Hiring Manager
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function closeDetails() {
+            document.getElementById('details-overlay').classList.add('translate-x-full');
+        }
+
+        // --- Existing Toggle Logic ---
         function toggleTalkingPoints() {
             const content = document.getElementById('talking-points-content');
             const btn = document.getElementById('btn-talking-points');
-            
             if (content.classList.contains('hidden')) {
                 content.classList.remove('hidden');
                 content.classList.add('expand-vertical');
@@ -319,10 +476,7 @@
             if (list.classList.contains('hidden')) {
                 list.classList.remove('hidden');
                 list.classList.add('expand-vertical');
-                // Scroll to ensure visibility if needed
-                setTimeout(() => {
-                    list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
+                setTimeout(() => { list.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
             } else {
                 list.classList.add('hidden');
                 list.classList.remove('expand-vertical');
