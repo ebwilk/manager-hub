@@ -41,9 +41,9 @@
 
     <!-- WIDGET CONTAINER 
          - w-full: Adapts to parent container width
-         - h-[320px]: Fixed height
+         - h-[400px]: Increased height for better visibility
     -->
-    <div class="w-full bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col overflow-hidden relative h-[320px]">
+    <div class="w-full bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col overflow-hidden relative h-[400px]">
         
         <!-- HEADER -->
         <div class="bg-[#003478] px-4 py-3 flex items-center justify-between shrink-0 z-20 gap-2">
@@ -83,7 +83,7 @@
                 </div>
                 <div class="flex items-center gap-1 opacity-90 transition-opacity shrink-0">
                     <button onclick="dismissTask('task-1')" class="p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600" title="Deny"><i data-lucide="x" class="w-4 h-4"></i></button>
-                    <!-- Fixed Button Layout -->
+                    <!-- Fixed Button Layout: Always visible text -->
                     <button onclick="completeTask('task-1')" class="h-7 px-3 bg-[#003478] text-white rounded hover:bg-blue-900 shadow-sm flex items-center gap-2 transition-colors">
                         <span class="text-[10px] font-bold opacity-70 border-r border-white/20 pr-2 leading-none">Workday</span>
                         <span class="text-[10px] font-bold leading-none">Approve</span>
@@ -195,10 +195,10 @@
             </div>
 
             <!-- Compliance Status (Collapsible) -->
-            <div class="bg-white border border-slate-200 rounded-md p-3 shadow-sm transition-all duration-300">
-                <div onclick="toggleCompliance()" class="cursor-pointer">
+            <div class="bg-white border border-slate-200 rounded-md p-3 shadow-sm transition-all duration-300 pb-2">
+                <div onclick="toggleCompliance()" class="cursor-pointer group">
                     <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-xs font-bold text-slate-700 truncate">Cybersecurity Training</h3>
+                        <h3 class="text-xs font-bold text-slate-700 truncate group-hover:text-[#003478]">Cybersecurity Training</h3>
                         <span class="text-[9px] text-red-500 font-bold shrink-0">Due in 3 Days</span>
                     </div>
                     <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-1">
@@ -206,7 +206,7 @@
                     </div>
                     <div class="flex justify-between text-[9px] text-slate-400">
                         <span>12/14 Completed</span>
-                        <span class="text-[#003478] font-bold hover:underline flex items-center gap-1">
+                        <span class="text-[#003478] font-bold group-hover:underline flex items-center gap-1">
                             2 Pending (View) <i data-lucide="chevron-down" class="w-2.5 h-2.5"></i>
                         </span>
                     </div>
@@ -280,11 +280,16 @@
             const el = document.getElementById(id);
             const btn = el.querySelector('button.bg-\\[\\#003478\\]');
             if(btn) {
+                // Simulate loading/success state
                 btn.className = "h-7 px-3 bg-[#02b547] text-white rounded shadow-sm flex items-center gap-1 cursor-default";
                 btn.innerHTML = '<span class="text-[10px] font-bold">Processed</span><i data-lucide="check" class="w-3 h-3"></i>';
                 lucide.createIcons();
             }
-            setTimeout(() => { el.classList.add('slide-out-right'); }, 800);
+            
+            // Delay then slide out
+            setTimeout(() => {
+                el.classList.add('slide-out-right');
+            }, 800);
         }
 
         function dismissTask(id) {
@@ -314,6 +319,10 @@
             if (list.classList.contains('hidden')) {
                 list.classList.remove('hidden');
                 list.classList.add('expand-vertical');
+                // Scroll to ensure visibility if needed
+                setTimeout(() => {
+                    list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
             } else {
                 list.classList.add('hidden');
                 list.classList.remove('expand-vertical');
