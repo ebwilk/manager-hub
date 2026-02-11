@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ford Manager Hub</title>
+    <title>GM Manager Hub</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,12 +20,16 @@
         @keyframes slideOutRight { to { transform: translateX(100%); opacity: 0; height: 0; padding: 0; margin: 0; } }
         @keyframes expandVertical { from { opacity: 0; transform: scaleY(0); max-height: 0; } to { opacity: 1; transform: scaleY(1); max-height: 500px; } }
         
-        /* Ford Colors */
+        /* Restored Original Colors */
         :root {
-            --ford-blue: #003478;
-            --col-green: #02b547;
-            --col-blue: #2576fe;
+            --accent-dark: #003478; /* Original Deep Blue */
+            --col-green: #02b547;   /* Original Green */
+            --col-blue: #2576fe;    /* Original Royal Blue */
             --col-orange: #fb5d01;
+            
+            /* GM Specifics for Header/Buttons only */
+            --gm-primary: #005AD2;
+            --gm-dark: #003087;
         }
 
         /* Transparent background for embedding */
@@ -36,30 +40,20 @@
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
 
-        /* --- LIQUID GLASS STYLES --- */
+        /* --- STYLES --- */
         .glass-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 8px 32px rgba(0, 52, 120, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 48, 135, 0.1);
         }
 
-        .liquid-header {
-            background: linear-gradient(135deg, #003478 0%, #0055a6 100%);
+        /* GM Style Header (Preserved) */
+        .gm-header {
+            background: linear-gradient(135deg, #003087 0%, #005AD2 100%);
             position: relative;
             overflow: hidden;
-        }
-        .liquid-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            transform: rotate(30deg);
-            pointer-events: none;
         }
 
         .glass-card {
@@ -71,16 +65,17 @@
         .glass-card:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 52, 120, 0.08), inset 0 1px 0 rgba(255,255,255,1);
-            border-color: rgba(0, 85, 166, 0.3);
+            border-color: rgba(0, 52, 120, 0.3);
         }
 
+        /* GM Style Primary Buttons (Preserved) */
         .glossy-btn-primary {
-            background: linear-gradient(to bottom, #003478, #002a60);
+            background: linear-gradient(to bottom, #005AD2, #003087);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.1);
             border: 1px solid rgba(0,0,0,0.1);
         }
         .glossy-btn-primary:hover {
-            background: linear-gradient(to bottom, #004096, #003478);
+            background: linear-gradient(to bottom, #0066EE, #004096);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 8px rgba(0,0,0,0.15);
         }
 
@@ -100,8 +95,8 @@
     <!-- WIDGET CONTAINER -->
     <div class="w-full glass-container rounded-xl flex flex-col overflow-hidden relative h-[400px]">
         
-        <!-- HEADER (Liquid Style) -->
-        <div class="liquid-header px-4 py-3 flex items-center justify-between shrink-0 z-20 gap-2 shadow-md">
+        <!-- HEADER (GM Style) -->
+        <div class="gm-header px-4 py-3 flex items-center justify-between shrink-0 z-20 gap-2 shadow-md">
             <div class="flex items-center gap-2.5 min-w-0 relative z-10">
                 <div class="bg-white/20 p-1.5 rounded-full shrink-0 backdrop-blur-sm shadow-inner border border-white/10">
                     <i data-lucide="briefcase" class="w-4 h-4 text-white drop-shadow-sm"></i>
@@ -160,7 +155,6 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2 opacity-90 transition-opacity shrink-0">
-                    <!-- Changed from dismiss to open details -->
                     <button onclick="openDetails('expense')" class="w-7 h-7 flex items-center justify-center hover:bg-slate-100 rounded-full text-slate-400 hover:text-[#003478] transition-colors" title="View Details"><i data-lucide="search" class="w-4 h-4"></i></button>
                     <button onclick="completeTask('task-2')" class="h-7 px-3 glossy-btn-primary text-white rounded-md flex items-center gap-2 transition-transform active:scale-95">
                         <span class="text-[10px] font-bold opacity-80 border-r border-white/30 pr-2 leading-none">Concur</span>
@@ -184,7 +178,6 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2 opacity-90 transition-opacity shrink-0">
-                    <!-- Changed from dismiss to open details -->
                     <button onclick="openDetails('training')" class="w-7 h-7 flex items-center justify-center hover:bg-slate-100 rounded-full text-slate-400 hover:text-[#003478] transition-colors" title="Course Info"><i data-lucide="info" class="w-4 h-4"></i></button>
                     <button onclick="completeTask('task-3')" class="h-7 px-3 glossy-btn-primary text-white rounded-md flex items-center gap-2 transition-transform active:scale-95">
                         <span class="text-[10px] font-bold opacity-80 border-r border-white/30 pr-2 leading-none">LMS</span>
@@ -208,7 +201,6 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2 opacity-90 transition-opacity shrink-0">
-                    <!-- Changed from dismiss to open details -->
                     <button onclick="openDetails('candidate')" class="w-7 h-7 flex items-center justify-center hover:bg-slate-100 rounded-full text-slate-400 hover:text-[#003478] transition-colors" title="View Resume"><i data-lucide="search" class="w-4 h-4"></i></button>
                     <button onclick="completeTask('task-4')" class="h-7 px-3 glossy-btn-primary text-white rounded-md flex items-center gap-2 transition-transform active:scale-95">
                         <span class="text-[10px] font-bold opacity-80 border-r border-white/30 pr-2 leading-none">Workday</span>
@@ -221,7 +213,7 @@
 
         <!-- CONTENT AREA: TEAM PULSE (Hidden Initially) -->
         <div id="view-team" class="hidden flex-1 overflow-y-auto custom-scroll bg-slate-50/50 p-2 space-y-2">
-            <!-- Same as previous version ... -->
+            
             <!-- Update to Share -->
             <div class="glass-card rounded-lg p-3 group" id="talking-points-card">
                 <div class="flex items-start gap-3">
@@ -307,7 +299,7 @@
         <!-- DETAILS OVERLAY -->
         <div id="details-overlay" class="absolute inset-0 bg-white z-30 transform translate-x-full transition-transform duration-300 flex flex-col">
             <!-- Header -->
-            <div class="liquid-header px-4 py-3 flex items-center gap-2 shrink-0 shadow-md">
+            <div class="gm-header px-4 py-3 flex items-center gap-2 shrink-0 shadow-md">
                 <button onclick="closeDetails()" class="text-white/80 hover:text-white transition-colors">
                     <i data-lucide="arrow-left" class="w-4 h-4"></i>
                 </button>
@@ -402,7 +394,7 @@
                         <h2 class="text-sm font-bold text-slate-800 mb-1">Data Privacy & Security 2026</h2>
                         <span class="inline-block bg-red-50 text-red-600 text-[9px] px-2 py-0.5 rounded border border-red-100 font-bold mb-3">Mandatory Compliance</span>
                         <p class="text-[10px] text-slate-600 leading-relaxed">
-                            This course covers the latest updates to global data protection regulations (GDPR, CCPA) and Ford's internal data handling policies. All employees with access to customer data must complete this annual certification.
+                            This course covers the latest updates to global data protection regulations (GDPR, CCPA) and GM's internal data handling policies. All employees with access to customer data must complete this annual certification.
                         </p>
                     </div>
                     <div class="space-y-2">
